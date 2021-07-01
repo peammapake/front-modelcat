@@ -11,20 +11,18 @@ function App() {
   const [hasError, setError] = useState(false);
   const [category, setCat] = useState([]);
 
-  useEffect(() => {
-    async function fetchData() {
-      const res = await fetch(url);
-      res
-        .json()
-        .then((res) => setCat(res))
-        .catch((err) => setError(err));
-    }
-    fetchData();
-  }, []);
+  async function fetchData() {
+    const res = await fetch(url);
+    res
+      .json()
+      .then((res) => setCat(res))
+      .catch((err) => setError(err));
+  }
 
-  const lookIn = (id) => {
-    const tempCat = category.filter((cat) => cat.id === id);
-  };
+  useEffect(() => {
+    fetchData();
+    console.log("I ran");
+  }, []);
 
   return (
     <Router>
@@ -33,9 +31,9 @@ function App() {
         <div className="content">
           <Switch>
             <Route exact path="/">
-              <Main category={category} lookIn={lookIn} />
+              <Main category={category} />
             </Route>
-            <Route exact path="/:id">
+            <Route exact path="/detail">
               <LookCat />
             </Route>
           </Switch>
@@ -43,6 +41,6 @@ function App() {
       </div>
     </Router>
   );
-};
+}
 
 export default App;
