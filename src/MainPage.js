@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 
 const Main = ({ category }) => {
@@ -7,25 +8,46 @@ const Main = ({ category }) => {
     }
   };
 
+  const [searchTerm, setSearchTerm] = useState("");
+
   return (
     <div className="categories">
-      <input type="text" onKeyDown={handleSearch} placeholder="Search..." />
-      {category.map((val, key) => {
-        return (
-          <div className="catlist" key={key}>
-            <Link
-              to={{
-                pathname: "/detail",
-                state: {
-                  catDetail: val,
-                },
-              }}
-            >
-              <p>{val.name}</p>
-            </Link>
-          </div>
-        );
-      })}
+      <div className="searchbox">
+        <input
+          type="text"
+          onKeyDown={handleSearch}
+          placeholder="Search..."
+          onChange={(event) => {
+            setSearchTerm(event.target.value);
+          }}
+        />
+      </div>
+      {category
+        .filter((val) => {
+          if (searchTerm == "") {
+            return val;
+          } else if (
+            val.name.toLowerCase().includes(searchTerm.toLowerCase())
+          ) {
+            return val;
+          }
+        })
+        .map((val, key) => {
+          return (
+            <div className="catlist" key={key}>
+              <Link
+                to={{
+                  pathname: "/detail",
+                  state: {
+                    catDetail: val,
+                  },
+                }}
+              >
+                <p>{val.name}</p>
+              </Link>
+            </div>
+          );
+        })}
     </div>
   );
 };
