@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 
 const LookCat = () => {
   const { id } = useParams();
@@ -6,6 +6,7 @@ const LookCat = () => {
   return (
     <div className="cat-details">
       <h2>Category Detail</h2>
+      <p></p>
     </div>
   );
 };
